@@ -1,8 +1,12 @@
+var matchModel = require("./matchModel");
+var teamModel = require("./teamModel");
+
 module.exports = {
     adminUser: {
         userName: "admin",
         password: "admin"
     },
 
-    errors: []
+    matches: matchModel,
+    teams: teamModel
 };
