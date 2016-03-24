@@ -1,17 +1,12 @@
-var loginpwModel = require("../models/loginpw");
-var checkLoginMW = require("../middleware/checkLoginPw");
+var checkLoginMW = require("../middleware/login/checkLoginPw");
+var checkLoggedInMW = require("../middleware/login/checkIsLoggedIn");
+var render = require("../middleware/common/render");
+var objRepo = require("../model/objectRepository");
 
 module.exports = function (app) {
     app.use("/login",
-        function(req, res, next) {
-            //ha be van lépve átirányít
-            next();
-        },
-        checkLoginMW(),
-        function(req, res, next) {
-            //html render
-            console.log("html");
-            res.send("html");
-        }
+        checkLoggedInMW(app),
+        checkLoginMW(objRepo),
+        render(objRepo, "Login failed")
     );
 };
