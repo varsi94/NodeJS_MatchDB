@@ -8,6 +8,7 @@ var checkLoggedInMW = require("../middleware/login/checkIsLoggedIn");
 
 //common requires
 var render = require("../middleware/common/render");
+var renderJSON = require("../middleware/common/renderJson");
 
 //model requires
 var objRepo = require("../model/objectRepository");
@@ -40,7 +41,7 @@ module.exports = function(app) {
     app.use("/teams/",
         checkLoggedInMW(app),
         getTeamsMW(objRepo),
-        render(objRepo, "getTeams")
+        renderJSON()
     );
 
     app.use("/team/create",

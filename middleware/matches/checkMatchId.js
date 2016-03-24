@@ -9,4 +9,4 @@ module.exports = function(objectRepository) {
             return next();
         }
     }
-}
+};

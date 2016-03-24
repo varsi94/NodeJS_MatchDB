@@ -4,4 +4,4 @@ module.exports = function(objectRepository) {
         //módosítjuk az URL-paraméterben lévő meccset.
         return next();
     }
-}
+};

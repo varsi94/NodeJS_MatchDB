@@ -3,4 +3,4 @@ module.exports = function() {
         //kijelentkezteti a felhasználót.
         return next();
     }
-}
+};

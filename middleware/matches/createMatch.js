@@ -4,4 +4,4 @@ module.exports = function(objectRepository) {
         //Létrehozzuk az új meccset a bodyban lévő adatok alapján, beszúrjuk az adatbázisba.
         return next();
     }
-}
+};

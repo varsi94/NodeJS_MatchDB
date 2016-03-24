@@ -3,7 +3,7 @@ module.exports = function(objectRepository) {
         //ellenőrzi, hogy jó-e a felhasználónév és a jelszó
         if (objectRepository.adminUser.userName === req.body.userName
             && objectRepository.adminUser.password === req.body.password) {
-            return res.redirect("/");
+            return res.redirect("/matches");
         } else {
             return next();
         }

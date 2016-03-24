@@ -9,4 +9,4 @@ module.exports = function(objectRepository, viewName) {
             res.end("Render: " + viewName + " " + res.tpl);
         }
     }
-}
+};
