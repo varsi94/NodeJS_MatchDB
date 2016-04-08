@@ -41,7 +41,7 @@ module.exports = function (app) {
     //meccsek
     app.use("/matches/",
         getMatchesMW(objRepo),
-        render(objRepo, "matches")
+        render(objRepo, "matches/listMatches")
     );
 
     app.use("/search/:keyword",

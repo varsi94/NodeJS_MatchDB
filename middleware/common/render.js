@@ -4,9 +4,9 @@ module.exports = function(objectRepository, viewName) {
         if (res.statusCode == 404) {
             return res.end("404 - Not found");
         } else if (res.tpl === undefined) {
-            res.end("Render: " + viewName);
+            res.render(viewName, null);
         } else {
-            res.end("Render: " + viewName + " " + res.tpl);
+            res.render(viewName, res.tpl);
         }
     }
 };
