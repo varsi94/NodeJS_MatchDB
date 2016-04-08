@@ -46,6 +46,6 @@ module.exports = function (app) {
 
     app.use("/search/:keyword",
         searchMatchesMW(objRepo),
-        render(objRepo, "matches")
+        render(objRepo, "matches/listMatches")
     );
 };
