@@ -9,7 +9,7 @@ module.exports = function(objectRepository) {
             match.awayTeam = teamModel.getTeamById(match.awayTeam);
             match.date = Date.parse(match.date + " " + match.time);
             matchModel.modifyMatch(req.params.matchId, match);
-            return res.redirect("/matches/");
+            return res.redirect("/match/successfulEdit");
         } else {
             var match = matchModel.getMatchById(req.params.matchId);
             var date = match.date;

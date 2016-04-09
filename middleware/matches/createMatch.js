@@ -10,7 +10,7 @@ module.exports = function(objectRepository) {
             match.awayTeam = teamModel.getTeamById(match.awayTeam);
             match.date = Date.parse(match.date + " " + match.time);
             matchModel.createMatch(match);
-            return res.redirect("/matches/");
+            return res.redirect("/match/successfulCreate");
         } else {
             //Ha nem POST, akkor kitesszük a felületet.
             res.tpl = {

@@ -1,4 +1,5 @@
 module.exports = {
+    maxTeamId: 3,
     teams : [
         {
             id: 1,
@@ -34,5 +35,8 @@ module.exports = {
 
     createTeam : function(team) {
         //létrehozza, és tárolja az adatbázisban a megadott csapatot
+        this.maxTeamId++;
+        team.id = this.maxTeamId;
+        this.teams.push(team);
     }
 };

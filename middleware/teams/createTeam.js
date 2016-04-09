@@ -3,9 +3,14 @@ module.exports = function(objectRepository) {
 
     return function(req, res, next) {
         //A body alapján létrehoz egy csapatot, és azt elmenti a teamModel segítségével.
-        res.tpl = {
-            title: "Új csapat létrehozása"
-        };
-        return next();
+        if (req.method == "POST") {
+            teamModel.createTeam(req.body);
+            return res.redirect("/team/successfulCreate");
+        } else {
+            res.tpl = {
+                title: "Új csapat létrehozása"
+            };
+            return next();
+        }
     }
 };
