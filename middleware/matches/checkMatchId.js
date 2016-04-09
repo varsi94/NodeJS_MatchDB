@@ -6,7 +6,7 @@ module.exports = function(objectRepository) {
             return next();
         } else {
             res.status(404);
-            return next();
+            return res.end("Not found");
         }
     }
 };

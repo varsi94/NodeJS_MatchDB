@@ -6,10 +6,9 @@ module.exports = function(objectRepository) {
         if (req.method == "POST") {
             return res.redirect("/search/" + req.body.keyword);
         }
-
         res.tpl = {
             title: "Főoldal",
-            matches: matchModel.getMatches()
+            matches: JSON.parse(JSON.stringify(matchModel.getMatches()))
         };
         return next();
     }

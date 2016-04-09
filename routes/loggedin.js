@@ -2,6 +2,8 @@
 var createMatchMW = require("../middleware/matches/createMatch");
 var deleteMatchMW = require("../middleware/matches/deleteMatch");
 var updateMatchMW = require("../middleware/matches/updateMatch");
+var validateMatchMW = require("../middleware/matches/validateMatch");
+var checkMatchIdMW = require("../middleware/matches/checkMatchId");
 
 //Login
 var checkLoggedInMW = require("../middleware/login/checkIsLoggedIn");
@@ -15,38 +17,36 @@ var objRepo = require("../model/objectRepository");
 
 //team requires
 var createTeamMW = require("../middleware/teams/createTeam");
-var getTeamsMW = require("../middleware/teams/getTeams");
 
 module.exports = function(app) {
     //meccsek
     app.use("/match/:matchId/edit",
         checkLoggedInMW(app),
+        checkMatchIdMW(objRepo),
+        validateMatchMW(objRepo),
         updateMatchMW(objRepo),
         render(objRepo, "matches/matchForm")
     );
 
     app.use("/match/:matchId/delete",
         checkLoggedInMW(app),
+        checkMatchIdMW(objRepo),
         deleteMatchMW(objRepo),
         renderJSON()
     );
 
     app.use("/match/create/",
         checkLoggedInMW(app),
+        validateMatchMW(objRepo),
         createMatchMW(objRepo),
         render(objRepo, "matches/matchForm")
     );
 
     //csapatok
-    app.use("/teams/",
-        checkLoggedInMW(app),
-        getTeamsMW(objRepo),
-        renderJSON()
-    );
-
     app.use("/team/create",
         checkLoggedInMW(app),
+
         createTeamMW(objRepo),
-        render(objRepo, "createTeam")
+        render(objRepo, "teams/create")
     );
 };

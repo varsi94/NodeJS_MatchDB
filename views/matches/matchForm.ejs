@@ -2,7 +2,7 @@
 <div id="navbar" class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
         <li><a href="/match/create">Új meccs létrehozása</a></li>
-        <li><a href="newteam.html">Új csapat hozzáadása</a></li>
+        <li><a href="/team/create">Új csapat hozzáadása</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <%- include("../common/loginpanel") -%>
@@ -24,7 +24,7 @@
                         <% for (var i = 0; i < teams.length; i++) {
                              var x = teams[i];
                         %>
-                        <option value="<%=x.id %>"><%=x.name %></option>
+                        <option value="<%=x.id %>"<%=(x.id == defaultData.homeTeam.id) ? " selected=\"selected\"" : ""%>><%=x.name %></option>
                         <% } %>
                     </select>
                 </div>
@@ -36,7 +36,7 @@
                         <% for (var i = 0; i < teams.length; i++) {
                             var x = teams[i];
                         %>
-                        <option value="<%=x.id %>"><%=x.name %></option>
+                        <option value="<%=x.id %>"<%=(x.id == defaultData.awayTeam.id) ? " selected=\"selected\"" : ""%>><%=x.name %></option>
                         <% } %>
                     </select>
                 </div>
@@ -44,43 +44,49 @@
             <div class="form-group">
                 <label for="homeScore" class="col-lg-2 control-label">Hazai eredmény:</label>
                 <div class="col-lg-10">
-                    <input type="number" class="form-control" id="homeScore" name="homeScore" value="">
+                    <input type="number" class="form-control" id="homeScore" name="homeScore" value="<%=defaultData.homeScore%>">
                 </div>
             </div>
             <div class="form-group">
                 <label for="awayScore" class="col-lg-2 control-label">Vendég eredmény:</label>
                 <div class="col-lg-10">
-                    <input type="number" class="form-control" id="awayScore" name="awayScore" value="">
+                    <input type="number" class="form-control" id="awayScore" name="awayScore" value="<%=defaultData.awayScore%>">
                 </div>
             </div>
             <div class="form-group">
                 <label for="stadium" class="col-lg-2 control-label">Stadion:</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="stadium" name="stadium" value="">
+                    <input type="text" class="form-control" id="stadium" name="stadium" value="<%=defaultData.stadium%>">
                 </div>
             </div>
             <div class="form-group">
                 <label for="referee" class="col-lg-2 control-label">Játékvezető:</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="referee" name="referee" value="">
+                    <input type="text" class="form-control" id="referee" name="referee" value="<%=defaultData.referee%>">
                 </div>
             </div>
             <div class="form-group">
                 <label for="spectatorCount" class="col-lg-2 control-label">Nézőszám:</label>
                 <div class="col-lg-10">
-                    <input type="number" class="form-control" id="spectatorCount" name="spectatorCount" value="">
+                    <input type="number" class="form-control" id="spectatorCount" name="spectators" value="<%=defaultData.spectators%>">
                 </div>
             </div>
             <div class="form-group">
                 <label for="matchType" class="col-lg-2 control-label">Típus:</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="matchType" name="matchType" value="">
+                    <input type="text" class="form-control" id="matchType" name="matchType" value="<%=defaultData.matchType%>">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="matchDate" class="col-lg-2 control-label">Dátum:</label>
+                <div class="col-lg-10">
+                    <input type="date" class="form-control" id="matchDate" name="date" value="<%=defaultData.date%>">
                 </div>
             </div>
             <div class="form-group">
                 <label for="matchTime" class="col-lg-2 control-label">Időpont:</label>
                 <div class="col-lg-10">
-                    <input type="datetime" class="form-control" id="matchTime" name="matchTime">
+                    <input type="time" class="form-control" id="matchTime" name="time" value="<%=defaultData.time%>">
                 </div>
             </div>
             <div class="form-group" style="text-align:right">

@@ -4,7 +4,7 @@ module.exports = function(objectRepository) {
         //keresünk a meccsek között
         res.tpl = {
             title: "Keresés",
-            matches: matchModel.searchMatches(req.params.keyword)
+            matches: JSON.parse(JSON.stringify(matchModel.searchMatches(req.params.keyword)))
         };
         return next();
     }

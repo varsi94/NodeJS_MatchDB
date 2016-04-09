@@ -9,10 +9,15 @@ module.exports = {
             id: 2,
             name: "Barcelona",
             nationality: "Spanish"
+        },
+        {
+            id: 3,
+            name: "Wolfsburg",
+            nationality: "német"
         }
     ],
 
-    getTeam : function(id) {
+    getTeamById : function(id) {
         //visszaadja a megadott ID-hoz tartozó csapatot
         for (var i = 0; i < this.teams.length; i++) {
             var x = this.teams[i];

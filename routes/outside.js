@@ -2,6 +2,7 @@
 var checkLoginMW = require("../middleware/login/checkLoginPw");
 var checkLoggedInMW = require("../middleware/login/checkIsLoggedIn");
 var logoutMW = require("../middleware/login/logout");
+var formatMatchDateMW = require("../middleware/matches/formatMatchDate");
 
 //Match requires
 var checkMatchIdMW = require("../middleware/matches/checkMatchId");
@@ -41,11 +42,17 @@ module.exports = function (app) {
     //meccsek
     app.use("/matches/",
         getMatchesMW(objRepo),
+        formatMatchDateMW(objRepo),
         render(objRepo, "matches/listMatches")
     );
 
     app.use("/search/:keyword",
         searchMatchesMW(objRepo),
+        formatMatchDateMW(objRepo),
         render(objRepo, "matches/listMatches")
     );
+
+    app.get("/", function(req, res, next) {
+        return res.redirect("/matches/");
+    });
 };

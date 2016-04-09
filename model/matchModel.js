@@ -1,45 +1,60 @@
 var dateFormat = require("dateformat");
-dateFormat.masks.basic = "yyyy mmmm dS, hh:MM:ss";
+dateFormat.masks.basic = "yyyy mmmm dS, HH:MM";
 
 module.exports = {
+    dateFormat: dateFormat,
+    maxId: 2,
     matches: [ {
         id: 1,
         matchType: "Spanyol bajnokság",
         homeTeam: {
+            id: 2,
             name: "Barcelona",
             nationality: "spanyol"
         },
         awayTeam: {
+            id: 1,
             name: "Real Madrid",
             nationality: "spanyol"
         },
         homeScore: 1,
         awayScore: 2,
         spectators: 100000,
-        date: dateFormat(new Date(2016, 3, 02, 20, 30, 0), "basic"),
+        date: new Date(2016, 3, 02, 20, 30, 0),
         stadium: "Camp Nou",
         referee: "Hernández Hernández"
     }, {
         id: 2,
         matchType: "Bajnokok Ligája",
         homeTeam: {
+            id: 3,
             name: "Wolfsburg",
             nationality: "német"
         },
         awayTeam: {
+            id: 1,
             name: "Real Madrid",
             nationality: "spanyol"
         },
         homeScore: 2,
         awayScore: 0,
         spectators: 30000,
-        date: dateFormat(new Date(2016, 3, 7, 20, 30, 0), "basic"),
+        date: new Date(2016, 3, 7, 20, 30, 0),
         stadium: "Volkswagen Arena",
         referee: "Hernández Hernández"
     }],
     getMatches : function() {
         //visszaadja az összes meccset
         return this.matches;
+    },
+
+    getMatchById: function (id) {
+        for (var i = 0; i < this.matches.length; i++) {
+            if (this.matches[i].id == id) {
+                return this.matches[i];
+            }
+        }
+        return null;
     },
 
     searchMatches : function(keyword) {
@@ -75,6 +90,9 @@ module.exports = {
 
     createMatch : function(match) {
         //létrehozza a meccset
+        this.maxId += 1;
+        match.id = this.maxId;
+        this.matches.push(match);
     },
 
     checkMatchId : function(id) {
