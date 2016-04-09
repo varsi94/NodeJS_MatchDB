@@ -27,7 +27,8 @@ module.exports = function(objectRepository) {
                     referee: ""
                 },
                 title: "Új meccs létrehozása",
-                teams: teamModel.getTeams()
+                teams: teamModel.getTeams(),
+                action: "/match/create"
             };
             return next();
         }

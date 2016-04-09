@@ -86,6 +86,13 @@ module.exports = {
 
     modifyMatch : function(id, match) {
         //módosítja a megadott azonosítóval rendelkező meccset a kapott paraméterre
+        match.id = id;
+        for (var i = 0; i < this.matches.length; i++) {
+            if (this.matches[i].id == id) {
+                this.matches[i] = match;
+                return;
+            }
+        }
     },
 
     createMatch : function(match) {
