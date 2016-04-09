@@ -3,6 +3,10 @@ module.exports = function(objectRepository) {
     return function(req, res, next) {
         //kitöröljük az adatbázisból az URL-paraméterben lévő azonosítóval ellátott
         //meccset.
-        return res.redirect("/matches");
+        var success = matchModel.deleteMatch(req.params.matchId);
+        res.jsonResult = {
+            success: success
+        };
+        return next();
     }
 };

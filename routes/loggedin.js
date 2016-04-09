@@ -22,19 +22,19 @@ module.exports = function(app) {
     app.use("/match/:matchId/edit",
         checkLoggedInMW(app),
         updateMatchMW(objRepo),
-        render(objRepo, "matchEdit")
+        render(objRepo, "matches/matchForm")
     );
 
     app.use("/match/:matchId/delete",
         checkLoggedInMW(app),
         deleteMatchMW(objRepo),
-        render(objRepo, "matchDelete")
+        renderJSON()
     );
 
     app.use("/match/create/",
         checkLoggedInMW(app),
         createMatchMW(objRepo),
-        render(objRepo, "matchCreate")
+        render(objRepo, "matches/matchForm")
     );
 
     //csapatok

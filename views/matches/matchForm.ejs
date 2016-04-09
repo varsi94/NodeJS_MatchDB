@@ -1,0 +1,92 @@
+<%- include("../common/header") -%>
+<div id="navbar" class="collapse navbar-collapse">
+    <ul class="nav navbar-nav">
+        <li><a href="/match/create">Új meccs létrehozása</a></li>
+        <li><a href="newteam.html">Új csapat hozzáadása</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+        <%- include("../common/loginpanel") -%>
+    </ul>
+</div><!--/.nav-collapse -->
+</div>
+</nav>
+<div class="container" style="margin-top: 80px;">
+    <div style="text-align: center">
+        <a href="/matches/">Vissza a meccsekhez!</a>
+    </div>
+    <form class="form-horizontal" method="post" action="/match/create">
+        <fieldset>
+            <legend>Meccs hozzáadása</legend>
+            <div class="form-group">
+                <label for="homeTeam" class="col-lg-2 control-label">Hazai csapat:</label>
+                <div class="col-lg-10">
+                    <select class="form-control" id="homeTeam" name="homeTeam">
+                        <% for (var i = 0; i < teams.length; i++) {
+                             var x = teams[i];
+                        %>
+                        <option value="<%=x.id %>"><%=x.name %></option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="awayTeam" class="col-lg-2 control-label">Vendég csapat:</label>
+                <div class="col-lg-10">
+                    <select class="form-control" id="awayTeam" name="awayTeam">
+                        <% for (var i = 0; i < teams.length; i++) {
+                            var x = teams[i];
+                        %>
+                        <option value="<%=x.id %>"><%=x.name %></option>
+                        <% } %>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="homeScore" class="col-lg-2 control-label">Hazai eredmény:</label>
+                <div class="col-lg-10">
+                    <input type="number" class="form-control" id="homeScore" name="homeScore" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="awayScore" class="col-lg-2 control-label">Vendég eredmény:</label>
+                <div class="col-lg-10">
+                    <input type="number" class="form-control" id="awayScore" name="awayScore" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="stadium" class="col-lg-2 control-label">Stadion:</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="stadium" name="stadium" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="referee" class="col-lg-2 control-label">Játékvezető:</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="referee" name="referee" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="spectatorCount" class="col-lg-2 control-label">Nézőszám:</label>
+                <div class="col-lg-10">
+                    <input type="number" class="form-control" id="spectatorCount" name="spectatorCount" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="matchType" class="col-lg-2 control-label">Típus:</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="matchType" name="matchType" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="matchTime" class="col-lg-2 control-label">Időpont:</label>
+                <div class="col-lg-10">
+                    <input type="datetime" class="form-control" id="matchTime" name="matchTime">
+                </div>
+            </div>
+            <div class="form-group" style="text-align:right">
+                <input type="submit" value="Mentés" class="btn btn-default" />
+            </div>
+        </fieldset>
+    </form>
+</div><!-- /.container -->
+<%- include("../common/footer")-%>

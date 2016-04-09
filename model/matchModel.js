@@ -60,6 +60,13 @@ module.exports = {
 
     deleteMatch : function(id) {
         //törli a megadott azonosítóval rendelkező meccset
+        for (var i = 0; i < this.matches.length; i++) {
+            if (this.matches[i].id == id) {
+                this.matches.splice(i, 1);
+                return true;
+            }
+        }
+        return false;
     },
 
     modifyMatch : function(id, match) {
@@ -72,6 +79,11 @@ module.exports = {
 
     checkMatchId : function(id) {
         //visszaadja, hogy létezik-e ilyen meccs azonosító
-        return Math.random() < 0.5;
+        for (var i = 0; i < this.matches.length; i++) {
+            if (this.matches[i].id == id) {
+                return true;
+            }
+        }
+        return false;
     }
 };
