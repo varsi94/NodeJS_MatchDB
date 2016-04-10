@@ -6,7 +6,8 @@ module.exports = function(app) {
         if (req.session.isLoggedIn) {
             return next();
         } else {
-            return res.redirect("/matches/?login=true");
+            res.status(403);
+            return res.end();
         }
     }
 };

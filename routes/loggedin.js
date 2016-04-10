@@ -7,6 +7,8 @@ var checkMatchIdMW = require("../middleware/matches/checkMatchId");
 
 //Login
 var checkLoggedInMW = require("../middleware/login/checkIsLoggedIn");
+var checkLoggedInJsonMW = require("../middleware/login/checkIsLoggedInForJson");
+var setIsLoggedInMW = require("../middleware/login/setIsLoggedIn");
 
 //common requires
 var render = require("../middleware/common/render");
@@ -27,19 +29,22 @@ module.exports = function(app) {
         checkMatchIdMW(objRepo),
         validateMatchMW(objRepo),
         updateMatchMW(objRepo),
+        setIsLoggedInMW(),
         render(objRepo, "matches/matchForm")
     );
 
     app.use("/match/successfulEdit",
         checkLoggedInMW(app),
         setTitleMW("Sikeres módosítás"),
+        setIsLoggedInMW(),
         render(objRepo, "matches/editSuccessful")
     );
 
     app.use("/match/:matchId/delete",
-        checkLoggedInMW(app),
+        checkLoggedInJsonMW(app),
         checkMatchIdMW(objRepo),
         deleteMatchMW(objRepo),
+        setIsLoggedInMW(),
         renderJSON()
     );
 
@@ -47,12 +52,14 @@ module.exports = function(app) {
         checkLoggedInMW(app),
         validateMatchMW(objRepo),
         createMatchMW(objRepo),
+        setIsLoggedInMW(),
         render(objRepo, "matches/matchForm")
     );
 
     app.use("/match/successfulCreate/",
         checkLoggedInMW(app),
         setTitleMW("Sikeres létrehozás"),
+        setIsLoggedInMW(),
         render(objRepo, "matches/createSuccessful")
     );
 
@@ -61,12 +68,14 @@ module.exports = function(app) {
         checkLoggedInMW(app),
         validateTeamMW(objRepo),
         createTeamMW(objRepo),
+        setIsLoggedInMW(),
         render(objRepo, "teams/create")
     );
 
     app.use("/team/successfulCreate",
         checkLoggedInMW(app),
         setTitleMW("Sikeres létrehozás"),
+        setIsLoggedInMW(),
         render(objRepo, "teams/createSuccessful")
     );
 };

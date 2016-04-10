@@ -2,15 +2,17 @@
 var checkLoginMW = require("../middleware/login/checkLoginPw");
 var checkLoggedInMW = require("../middleware/login/checkIsLoggedIn");
 var logoutMW = require("../middleware/login/logout");
-var formatMatchDateMW = require("../middleware/matches/formatMatchDate");
+var setIsLoggedInMW = require("../middleware/login/setIsLoggedIn");
 
 //Match requires
 var checkMatchIdMW = require("../middleware/matches/checkMatchId");
 var getMatchesMW = require("../middleware/matches/getMatches");
 var searchMatchesMW = require("../middleware/matches/searchMatches");
+var formatMatchDateMW = require("../middleware/matches/formatMatchDate");
 
 //common requires
 var render = require("../middleware/common/render");
+var renderJson = require("../middleware/common/renderJson");
 
 //model requires
 var objRepo = require("../model/objectRepository");
@@ -18,12 +20,13 @@ var objRepo = require("../model/objectRepository");
 module.exports = function (app) {
     //admin autentikáció
     app.use("/login",
-        checkLoggedInMW(app),
         checkLoginMW(objRepo),
-        render(objRepo, "Login failed")
+        setIsLoggedInMW(),
+        renderJson()
     );
 
     app.use("/logout",
+        checkLoggedInMW(app),
         logoutMW(),
         function(req, res, next) {
             res.redirect("/")
@@ -43,12 +46,14 @@ module.exports = function (app) {
     app.use("/matches/",
         getMatchesMW(objRepo),
         formatMatchDateMW(objRepo),
+        setIsLoggedInMW(),
         render(objRepo, "matches/listMatches")
     );
 
     app.use("/search/:keyword",
         searchMatchesMW(objRepo),
         formatMatchDateMW(objRepo),
+        setIsLoggedInMW(),
         render(objRepo, "matches/listMatches")
     );
 
