@@ -78,4 +78,11 @@ module.exports = function(app) {
         setIsLoggedInMW(),
         render(objRepo, "teams/createSuccessful")
     );
+
+    app.use("/team/createFailed",
+        checkLoggedInMW(app),
+        setTitleMW("Sikertelen létrehozás"),
+        setIsLoggedInMW(),
+        render(objRepo, "teams/createFailed")
+    );
 };

@@ -9,7 +9,10 @@
         </form>
     </div>
 
-    <% for (var i = 0; i < matches.length; i++) { var x = matches[i]; %>
+    <%
+    if (matches.length > 0) {
+        for (var i = 0; i < matches.length; i++) {
+            var x = matches[i]; %>
     <div class="panel panel-default col-lg-8 col-lg-offset-2">
         <div class="panel-heading"><%=x.matchType %></div>
         <div class="panel-body">
@@ -28,15 +31,24 @@
                     <td><%=x.spectators%> néző</td>
                     <td />
                     <td style="text-align:right">
-                        <a class="btn btn-default" type="button" value="Módosít" href="/match/<%=x.id %>/edit">Módosít</a>
-                        <input class="btn btn-danger deleteBtn" type="button" value="Törlés" data-id="<%=x.id %>" data-toggle="modal"
+                        <a class="btn btn-default" type="button" value="Módosít" href="/match/<%=x._id %>/edit">Módosít</a>
+                        <input class="btn btn-danger deleteBtn" type="button" value="Törlés" data-id="<%=x._id %>" data-toggle="modal"
                                data-target="#confirmdialog" />
                     </td>
                 </tr>
             </table>
         </div>
     </div>
-    <% } %>
+    <%
+        }
+    } else {
+    %>
+        <div class="col-lg-8 col-lg-offset-2" style="text-align: center;">
+            Nincs egyetlen meccs sem!
+        </div>
+    <%
+        }
+    %>
 </div>
 
 <div class="modal" style="display: none" id="confirmdialog">

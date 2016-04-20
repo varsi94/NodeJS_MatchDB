@@ -12,7 +12,7 @@
                         <% for (var i = 0; i < teams.length; i++) {
                              var x = teams[i];
                         %>
-                        <option value="<%=x.id %>"<%=(x.id == defaultData.homeTeam.id) ? " selected=\"selected\"" : ""%>><%=x.name %></option>
+                        <option value="<%=x._id %>"<%=(defaultData.homeTeam && x._id == defaultData.homeTeam) ? " selected=\"selected\"" : ""%>><%=x.name %></option>
                         <% } %>
                     </select>
                 </div>
@@ -24,7 +24,7 @@
                         <% for (var i = 0; i < teams.length; i++) {
                             var x = teams[i];
                         %>
-                        <option value="<%=x.id %>"<%=(x.id == defaultData.awayTeam.id) ? " selected=\"selected\"" : ""%>><%=x.name %></option>
+                        <option value="<%=x._id %>"<%=(defaultData.awayTeam && x._id == defaultData.awayTeam) ? " selected=\"selected\"" : ""%>><%=x.name %></option>
                         <% } %>
                     </select>
                 </div>

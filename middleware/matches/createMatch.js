@@ -6,31 +6,42 @@ module.exports = function(objectRepository) {
         if (req.method == "POST") {
             //Itt már jó a meccs.
             var match = req.body;
-            match.homeTeam = teamModel.getTeamById(match.homeTeam);
-            match.awayTeam = teamModel.getTeamById(match.awayTeam);
             match.date = Date.parse(match.date + " " + match.time);
-            matchModel.createMatch(match);
-            return res.redirect("/match/successfulCreate");
+            matchModel.createMatch(match, function(success) {
+                if (success) {
+                    return res.redirect("/match/successfulCreate");
+                } else {
+                    res.status(500);
+                    return res.end("Internal server error");
+                }
+            });
         } else {
             //Ha nem POST, akkor kitesszük a felületet.
-            res.tpl = {
-                defaultData: {
-                    matchType: "",
-                    homeTeam: teamModel.getTeamById(1),
-                    awayTeam: teamModel.getTeamById(2),
-                    homeScore: 0,
-                    awayScore: 0,
-                    spectators: 0,
-                    date: matchModel.dateFormat(new Date(), "yyyy-mm-dd"),
-                    time: "20:00",
-                    stadium: "",
-                    referee: ""
-                },
-                title: "Új meccs létrehozása",
-                teams: teamModel.getTeams(),
-                action: "/match/create"
-            };
-            return next();
+            teamModel.getTeams(function(err, data) {
+                if (err) {
+
+                } else {
+                    console.log(data);
+                    res.tpl = {
+                        defaultData: {
+                            matchType: "",
+                            homeTeam: null,
+                            awayTeam: null,
+                            homeScore: 0,
+                            awayScore: 0,
+                            spectators: 0,
+                            date: matchModel.dateFormat(new Date(), "yyyy-mm-dd"),
+                            time: "20:00",
+                            stadium: "",
+                            referee: ""
+                        },
+                        title: "Új meccs létrehozása",
+                        teams: data,
+                        action: "/match/create"
+                    };
+                    return next();
+                }
+            });
         }
     }
 };

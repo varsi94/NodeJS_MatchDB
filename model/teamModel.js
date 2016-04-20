@@ -1,42 +1,38 @@
-module.exports = {
-    maxTeamId: 3,
-    teams : [
-        {
-            id: 1,
-            name: "Real Madrid",
-            nationality: "Spaninsh"
+module.exports = function(mongoose) {
+    var Team = mongoose.model("Team", {
+        id: mongoose.Schema.Types.ObjectId,
+        name: String,
+        nationality: String
+    }, "Teams");
+
+    return {
+        getTeamById: function (id, callback) {
+            //visszaadja a megadott ID-hoz tartozó csapatot
+            return Team.findOne({"_id": id}, callback);
         },
-        {
-            id: 2,
-            name: "Barcelona",
-            nationality: "Spanish"
+
+        getTeams: function (callback) {
+            return Team.find({}, callback);
         },
-        {
-            id: 3,
-            name: "Wolfsburg",
-            nationality: "német"
+
+        createTeam: function (team, callback) {
+            //létrehozza, és tárolja az adatbázisban a megadott csapatot
+            var currTeam = new Team(team);
+            return currTeam.save(callback);
+        },
+
+        searchTeams: function(keyword, callback) {
+            return Team.find({name: new RegExp(keyword, "i")}, function(err, data) {
+                if (err) {
+                    callback([]);
+                } else {
+                    var result = [];
+                    for (var i = 0; i < data.length; i++) {
+                        result.push(data[i]._id);
+                    }
+                    callback(result);
+                }
+            });
         }
-    ],
-
-    getTeamById : function(id) {
-        //visszaadja a megadott ID-hoz tartozó csapatot
-        for (var i = 0; i < this.teams.length; i++) {
-            var x = this.teams[i];
-            if (x.id == id) {
-                return x;
-            }
-        }
-        return null;
-    },
-
-    getTeams: function() {
-        return this.teams;
-    },
-
-    createTeam : function(team) {
-        //létrehozza, és tárolja az adatbázisban a megadott csapatot
-        this.maxTeamId++;
-        team.id = this.maxTeamId;
-        this.teams.push(team);
-    }
+    };
 };

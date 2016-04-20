@@ -6,10 +6,17 @@ module.exports = function(objectRepository) {
         if (req.method == "POST") {
             return res.redirect("/search/" + req.body.keyword);
         }
-        res.tpl = {
-            title: "Főoldal",
-            matches: JSON.parse(JSON.stringify(matchModel.getMatches()))
-        };
-        return next();
+
+        return matchModel.getMatches(function(err, data) {
+            if (err) {
+                //TODO: hiba
+            } else {
+                res.tpl = {
+                    title: "Főoldal",
+                    matches: JSON.parse(JSON.stringify(data))
+                };
+                return next();
+            }
+        });
     }
 };

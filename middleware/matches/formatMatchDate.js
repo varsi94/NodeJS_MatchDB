@@ -3,7 +3,7 @@ module.exports = function(objectRepository) {
     return function(req, res, next) {
         for (var i = 0; i < res.tpl.matches.length; i++) {
             //Idő beállítása
-            res.tpl.matches[i].date = matchModel.dateFormat(res.tpl.matches[i].date, "basic");
+            res.tpl.matches[i].date = matchModel.dateFormat(new Date(res.tpl.matches[i].date.toString()), "basic");
         }
         return next();
     }

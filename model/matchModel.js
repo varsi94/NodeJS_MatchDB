@@ -1,114 +1,92 @@
 var dateFormat = require("dateformat");
 dateFormat.masks.basic = "yyyy mmmm dS, HH:MM";
 
-module.exports = {
-    dateFormat: dateFormat,
-    maxId: 2,
-    matches: [ {
-        id: 1,
-        matchType: "Spanyol bajnokság",
+module.exports = function(mongoose, teamModel) {
+    var Match = mongoose.model("Match", {
+        id: mongoose.Schema.Types.ObjectId,
+        matchType: String,
         homeTeam: {
-            id: 2,
-            name: "Barcelona",
-            nationality: "spanyol"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Team"
         },
         awayTeam: {
-            id: 1,
-            name: "Real Madrid",
-            nationality: "spanyol"
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Team"
         },
-        homeScore: 1,
-        awayScore: 2,
-        spectators: 100000,
-        date: new Date(2016, 3, 02, 20, 30, 0),
-        stadium: "Camp Nou",
-        referee: "Hernández Hernández"
-    }, {
-        id: 2,
-        matchType: "Bajnokok Ligája",
-        homeTeam: {
-            id: 3,
-            name: "Wolfsburg",
-            nationality: "német"
+        homeScore: Number,
+        awayScore: Number,
+        spectators: Number,
+        date:  {
+            type: Date,
+            default: Date.now()
         },
-        awayTeam: {
-            id: 1,
-            name: "Real Madrid",
-            nationality: "spanyol"
+        stadium: String,
+        referee: String
+    }, "Matches");
+
+    return {
+        dateFormat: dateFormat,
+        getMatches: function(callback) {
+            //visszaadja az összes meccset
+            return Match.find({}).populate("homeTeam").populate("awayTeam").exec(callback);
         },
-        homeScore: 2,
-        awayScore: 0,
-        spectators: 30000,
-        date: new Date(2016, 3, 7, 20, 30, 0),
-        stadium: "Volkswagen Arena",
-        referee: "Hernández Hernández"
-    }],
-    getMatches : function() {
-        //visszaadja az összes meccset
-        return this.matches;
-    },
 
-    getMatchById: function (id) {
-        for (var i = 0; i < this.matches.length; i++) {
-            if (this.matches[i].id == id) {
-                return this.matches[i];
-            }
-        }
-        return null;
-    },
+        getMatchById: function (id, callback) {
+            return Match.find({"_id": id}, function(err, data) {
+                if (err) {
+                    callback(null);
+                } else {
+                    callback(data[0]);
+                }
+            });
+        },
 
-    searchMatches : function(keyword) {
-        //visszaadja az összes meccset, aminek a bajnokság nevében, vagy valamelyik csapat nevében részleges
-        //egyezést talál
-        var result = [];
-        for (var i = 0; i < this.matches.length; i++) {
-            var match = this.matches[i];
-            var homeTeamName = match.homeTeam.name.toLocaleLowerCase();
-            var awayTeamName = match.awayTeam.name.toLocaleLowerCase();
-            var competition = match.matchType.toLocaleLowerCase();
-            if (homeTeamName.indexOf(keyword) != -1 || awayTeamName.indexOf(keyword) != -1 || competition.indexOf(keyword) != -1) {
-                result.push(match);
-            }
-        }
-        return result;
-    },
+        searchMatches : function(keyword, callback) {
+            //visszaadja az összes meccset, aminek a bajnokság nevében, vagy valamelyik csapat nevében részleges
+            //egyezést talál
+            var searchedTeams = teamModel.searchTeams(keyword, function(teams) {
+                return Match.find({ $or: [
+                        {homeTeam: {$in: teams}},
+                        {matchType: new RegExp(keyword, "i")},
+                        {awayTeam: {$in: teams}}
+                    ]})
+                    .populate("homeTeam")
+                    .populate("awayTeam")
+                    .exec(callback);
+            });
+        },
 
-    deleteMatch : function(id) {
-        //törli a megadott azonosítóval rendelkező meccset
-        for (var i = 0; i < this.matches.length; i++) {
-            if (this.matches[i].id == id) {
-                this.matches.splice(i, 1);
-                return true;
-            }
-        }
-        return false;
-    },
+        deleteMatch : function(id, callback) {
+            //törli a megadott azonosítóval rendelkező meccset
+            Match.remove({"_id": id}, function(err) {
+                return callback(!err);
+            });
+        },
 
-    modifyMatch : function(id, match) {
-        //módosítja a megadott azonosítóval rendelkező meccset a kapott paraméterre
-        match.id = id;
-        for (var i = 0; i < this.matches.length; i++) {
-            if (this.matches[i].id == id) {
-                this.matches[i] = match;
-                return;
-            }
-        }
-    },
+        modifyMatch : function(id, match, callback) {
+            //módosítja a megadott azonosítóval rendelkező meccset a kapott paraméterre
+            Match.update({"_id": id}, match, {upsert: false}, function(err) {
+                return callback(!err);
+            });
+        },
 
-    createMatch : function(match) {
-        //létrehozza a meccset
-        this.maxId += 1;
-        match.id = this.maxId;
-        this.matches.push(match);
-    },
+        createMatch : function(match, callback) {
+            //létrehozza a meccset
+            var currMatch = new Match(match);
+            currMatch.save(function(err) {
+                return callback(!err);
+            });
+        },
 
-    checkMatchId : function(id) {
-        //visszaadja, hogy létezik-e ilyen meccs azonosító
-        for (var i = 0; i < this.matches.length; i++) {
-            if (this.matches[i].id == id) {
-                return true;
-            }
-        }
-        return false;
+        checkMatchId : function(id, callback) {
+            //visszaadja, hogy létezik-e ilyen meccs azonosító
+            return Match.find({"_id": id}, function(err, data) {
+                if (err) {
+                    callback(false);
+                } else {
+                    callback(true);
+                }
+            });
+        },
     }
 };
