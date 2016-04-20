@@ -11,8 +11,7 @@ module.exports = function(objectRepository) {
                 if (success) {
                     return res.redirect("/match/successfulCreate");
                 } else {
-                    res.status(500);
-                    return res.end("Internal server error");
+                    return res.redirect("/match/createFailed");
                 }
             });
         } else {

@@ -63,6 +63,20 @@ module.exports = function(app) {
         render(objRepo, "matches/createSuccessful")
     );
 
+    app.use("/match/createFailed",
+        checkLoggedInMW(app),
+        setTitleMW("Sikertelen létrehozás"),
+        setIsLoggedInMW(),
+        render(objRepo, "matches/createFailed")
+    );
+
+    app.use("/match/editFailed",
+        checkLoggedInMW(app),
+        setTitleMW("Sikertelen módosítás"),
+        setIsLoggedInMW(),
+        render(objRepo, "matches/editFailed")
+    );
+
     //csapatok
     app.use("/team/create",
         checkLoggedInMW(app),

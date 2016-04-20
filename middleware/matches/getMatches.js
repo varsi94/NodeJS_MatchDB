@@ -4,7 +4,7 @@ module.exports = function(objectRepository) {
         //Lekérjük az összes adatbázisban lévő meccset.
         //Ha POST, akkor kerestünk, és átirányítjuk:
         if (req.method == "POST") {
-            return res.redirect("/search/" + req.body.keyword);
+            return res.redirect("/search/" + encodeURIComponent(req.body.keyword));
         }
 
         return matchModel.getMatches(function(err, data) {

@@ -22,17 +22,16 @@ module.exports = function(objectRepository) {
                 match.time = matchModel.dateFormat(date, "HH:MM");
                 teamModel.getTeams(function(err, teams) {
                     if (err) {
-                        res.status(500);
-                        return res.end();
+                        return res.redirect("/match/editFailed");
+                    } else {
+                        res.tpl = {
+                            title: "Meccs szerkesztése",
+                            teams: teams,
+                            defaultData: match,
+                            action: "/match/" + req.params.matchId + "/edit"
+                        }
+                        return next();
                     }
-                    console.log(match);
-                    res.tpl = {
-                        title: "Meccs szerkesztése",
-                        teams: teams,
-                        defaultData: match,
-                        action: "/match/" + req.params.matchId  + "/edit"
-                    }
-                    return next();
                 });
             });
         }
