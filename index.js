@@ -16,19 +16,6 @@ app.use(session({
 
 app.use("/static", express.static("static"));
 
-// express error handler
-app.use(function(err, req, res, next) {
-    // in case of specific URIError
-    if (err instanceof URIError) {
-        err.message = 'Failed to decode param: ' + req.url;
-        err.status = err.statusCode = 400;
-
-        // .. your redirect here if still needed
-        return res.redirect(['https://', req.get('Host'), req.url].join(''));
-    } else {
-    }
-});
-
 //nem igényel bejelentkezést
 require("./routes/outside")(app);
 
