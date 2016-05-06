@@ -1,22 +1,24 @@
+/**
+ * Created by varsi on 2016. 05. 06..
+ */
 module.exports = function(objectRepository) {
-    var teamModel = objectRepository.teams;
-
     return function(req, res, next) {
         //A body alapján létrehoz egy csapatot, és azt elmenti a teamModel segítségével.
         if (req.method == "POST") {
-            teamModel.createTeam(req.body, function(err) {
+            objectRepository.teams.updateTeam(req.body, req.params.teamId, function(err) {
                 if (!err) {
-                    return res.redirect("/team/successfulCreate");
+                    return res.redirect("/team/successfulEdit");
                 } else {
-                    return res.redirect("/team/createFailed");
+                    return res.redirect("/team/editFailed");
                 }
             });
         } else {
             res.tpl = {
-                title: "Új csapat létrehozása",
-                isModify: false
+                title: "Csapat módosítása",
+                data: res.teamData,
+                isModify: true
             };
             return next();
         }
-    }
+    };
 };

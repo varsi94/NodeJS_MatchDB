@@ -30,7 +30,7 @@ module.exports = function(mongoose, Team, Match) {
         },
 
         deleteTeam: function(id, callback) {
-            //Töröljük a csapatot
+            //Töröljük a csapatot, ha nincs hozzá rendelve egy darab meccs sem
             Match.find({
                 $or: [
                     {homeTeam: id },
@@ -44,6 +44,13 @@ module.exports = function(mongoose, Team, Match) {
                 } else {
                     return callback(false);
                 }
+            });
+        },
+
+        updateTeam: function(team, id, callback) {
+            //módosítja a megadott azonosítóval rendelkező csapatot a kapott paraméterre
+            Team.update({"_id": id}, team, {upsert: false}, function(err) {
+                return callback(err);
             });
         }
     };

@@ -6,6 +6,7 @@ module.exports = function(objectRepository) {
                 res.status(404);
                 return res.end("Not found");
             } else {
+                res.teamData = data;
                 next();
             }
         });

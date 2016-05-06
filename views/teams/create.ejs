@@ -1,21 +1,21 @@
 <%- include("../common/header") -%>
     <div align="center">
-        <a href="/matches/">Vissza a meccsekhez!</a>
+        <a href="/teams/index">Vissza a csapatok kezeléséhez!</a>
     </div>
 
-    <form class="form-horizontal" method="post" action="/team/create">
+    <form class="form-horizontal" method="post" action="">
         <fieldset>
-            <legend>Csapat hozzáadása</legend>
+            <legend><%=(isModify) ? "Csapat módosítása" : "Csapat hozzáadása"%></legend>
             <div class="form-group">
                 <label for="inputName" class="col-lg-2 control-label">Csapat neve:</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputName" name="name">
+                    <input type="text" class="form-control" id="inputName" name="name" value="<%=(isModify) ? data.name : "" %>">
                 </div>
             </div>
             <div class="form-group">
                 <label for="inputNationality" class="col-lg-2 control-label">Csapat nemeztisége:</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="inputNationality" name="nationality">
+                    <input type="text" class="form-control" id="inputNationality" name="nationality" value="<%=(isModify) ? data.nationality : ""%>">
                 </div>
             </div>
             <div class="form-group" style="text-align:right">

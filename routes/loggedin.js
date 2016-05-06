@@ -24,6 +24,7 @@ var validateTeamMW = require("../middleware/teams/validateTeam");
 var checkTeamMW = require("../middleware/teams/checkTeamId");
 var getTeamsMW = require("../middleware/teams/getTeams");
 var deleteTeamMW = require("../middleware/teams/deleteTeam");
+var modifyTeamMW = require("../middleware/teams/modifyTeam");
 
 module.exports = function(app) {
     //meccsek
@@ -85,10 +86,11 @@ module.exports = function(app) {
         checkTeamMW(objRepo)
     );
 
-    app.use("/team/edit/:matchId",
+    app.use("/team/edit/:teamId",
         checkLoggedInMW(app),
+        checkTeamMW(objRepo),
         validateTeamMW(objRepo),
-        createTeamMW(objRepo),
+        modifyTeamMW(objRepo),
         setIsLoggedInMW(),
         render(objRepo, "teams/create")
     );
@@ -127,5 +129,20 @@ module.exports = function(app) {
         setTitleMW("Sikertelen létrehozás"),
         setIsLoggedInMW(),
         render(objRepo, "teams/createFailed")
+    );
+
+
+    app.use("/team/successfulEdit",
+        checkLoggedInMW(app),
+        setTitleMW("Sikeres módosítás"),
+        setIsLoggedInMW(),
+        render(objRepo, "teams/successfulEdit")
+    );
+
+    app.use("/team/editFailed",
+        checkLoggedInMW(app),
+        setTitleMW("Sikertelen módosítás"),
+        setIsLoggedInMW(),
+        render(objRepo, "teams/editFailed")
     );
 };
