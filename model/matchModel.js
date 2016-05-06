@@ -1,29 +1,7 @@
 var dateFormat = require("dateformat");
 dateFormat.masks.basic = "yyyy mmmm dS, HH:MM";
 
-module.exports = function(mongoose, teamModel) {
-    var Match = mongoose.model("Match", {
-        id: mongoose.Schema.Types.ObjectId,
-        matchType: String,
-        homeTeam: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Team"
-        },
-        awayTeam: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Team"
-        },
-        homeScore: Number,
-        awayScore: Number,
-        spectators: Number,
-        date:  {
-            type: Date,
-            default: Date.now()
-        },
-        stadium: String,
-        referee: String
-    }, "Matches");
-
+module.exports = function(mongoose, teamModel, Match) {
     return {
         dateFormat: dateFormat,
         getMatches: function(callback) {

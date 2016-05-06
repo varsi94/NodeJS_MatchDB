@@ -20,7 +20,6 @@ module.exports = function(objectRepository) {
                 if (err) {
 
                 } else {
-                    console.log(data);
                     res.tpl = {
                         defaultData: {
                             matchType: "",

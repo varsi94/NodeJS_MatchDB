@@ -1,0 +1,91 @@
+<%- include("../common/header") -%>
+<div align="center">
+    <a href="/matches/">Vissza a meccsekhez!</a>
+</div>
+
+<div align="right">
+    <a class="btn btn-primary" href="/team/create">Új csapat létrehozása</a>
+</div>
+<% if (hasError) { %>
+
+<% } else { %>
+<table class="table table-striped table-hover ">
+    <thead>
+    <tr>
+        <th>Csapat neve</th>
+        <th>Nemzetisége</th>
+        <th />
+    </tr>
+    </thead>
+    <tbody>
+<%
+for (var i = 0; i < teams.length; i++) {
+    var team = teams[i];
+%>
+    <tr>
+        <td><%=team.name%></td>
+        <td><%=team.nationality%></td>
+        <td>
+            <a href="/team/edit/<%=team._id%>" class="btn btn-warning">Szerkesztés</a>
+            <a href="#" data-href="/team/delete/<%=team._id%>" class="btn btn-danger deleteBtn" data-toggle="modal"
+               data-target="#confirmdialog">Törlés</a>
+        </td>
+    </tr>
+<% }%>
+    </tbody>
+</table>
+
+<div class="modal" style="display: none" id="confirmdialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Megerősítés</h4>
+            </div>
+            <div class="modal-body">
+                <p>Biztos, hogy törlöd ezt a csapatot?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Nem</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" id="yesBtn">Igen</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" style="display: none" id="resultDialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Eredmény</h4>
+            </div>
+            <div class="modal-body">
+                <p>Sikertelen törlés! Valószínűleg van a csapathoz rendelve meccs!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="okBtn">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $("#confirmdialog").on("shown.bs.modal", function(e) {
+            var btn = $(e.relatedTarget);
+            var url = $(btn).data("href");
+            $("#confirmdialog #yesBtn").one("click", function(evt) {
+                $.ajax({
+                    url: url
+                }).done(function(msg) {
+                    window.location.href = "/teams/index";
+                }).fail(function(msg) {
+                    $("#resultDialog").modal("toggle");
+                });
+            });
+            return false;
+        });
+    });
+</script>
+
+<% } %>
+<%- include("../common/footer") -%>

@@ -21,6 +21,9 @@ var objRepo = require("../model/objectRepository");
 //team requires
 var createTeamMW = require("../middleware/teams/createTeam");
 var validateTeamMW = require("../middleware/teams/validateTeam");
+var checkTeamMW = require("../middleware/teams/checkTeamId");
+var getTeamsMW = require("../middleware/teams/getTeams");
+var deleteTeamMW = require("../middleware/teams/deleteTeam");
 
 module.exports = function(app) {
     //meccsek
@@ -78,6 +81,32 @@ module.exports = function(app) {
     );
 
     //csapatok
+    app.param("teamId",
+        checkTeamMW(objRepo)
+    );
+
+    app.use("/team/edit/:matchId",
+        checkLoggedInMW(app),
+        validateTeamMW(objRepo),
+        createTeamMW(objRepo),
+        setIsLoggedInMW(),
+        render(objRepo, "teams/create")
+    );
+
+    app.use("/team/delete/:teamId",
+        checkLoggedInJsonMW(app),
+        checkTeamMW(objRepo),
+        deleteTeamMW(objRepo),
+        renderJSON()
+    );
+
+    app.use("/teams/index",
+        checkLoggedInMW(app),
+        getTeamsMW(objRepo),
+        setIsLoggedInMW(),
+        render(objRepo, "teams/index")
+    );
+
     app.use("/team/create",
         checkLoggedInMW(app),
         validateTeamMW(objRepo),

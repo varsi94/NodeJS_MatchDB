@@ -1,10 +1,4 @@
-module.exports = function(mongoose) {
-    var Team = mongoose.model("Team", {
-        id: mongoose.Schema.Types.ObjectId,
-        name: String,
-        nationality: String
-    }, "Teams");
-
+module.exports = function(mongoose, Team, Match) {
     return {
         getTeamById: function (id, callback) {
             //visszaadja a megadott ID-hoz tartozó csapatot
@@ -31,6 +25,24 @@ module.exports = function(mongoose) {
                         result.push(data[i]._id);
                     }
                     callback(result);
+                }
+            });
+        },
+
+        deleteTeam: function(id, callback) {
+            //Töröljük a csapatot
+            Match.find({
+                $or: [
+                    {homeTeam: id },
+                    { awayTeam: id }
+                ]
+            }).exec(function(err, data) {
+                if (!data || data.length == 0) {
+                    Team.remove({"_id": id}, function(err) {
+                        return callback(!err);
+                    });
+                } else {
+                    return callback(false);
                 }
             });
         }

@@ -2,6 +2,9 @@ var matchModel = require("./matchModel");
 var teamModel = require("./teamModel");
 var mongoose = require("mongoose");
 
+var teamSchema = require("./teamSchema");
+var matchSchema = require("./matchSchema");
+
 mongoose.connect("mongodb://localhost/DH5ZT5", function(err) {
     if (err) {
         console.log("Connection to database failed!");
@@ -10,8 +13,10 @@ mongoose.connect("mongodb://localhost/DH5ZT5", function(err) {
     }
 });
 
-var teamModelInstance = teamModel(mongoose);
-var matchModelInstance = matchModel(mongoose, teamModelInstance);
+var Team = teamSchema(mongoose);
+var Match = matchSchema(mongoose);
+var teamModelInstance = teamModel(mongoose, Team, Match);
+var matchModelInstance = matchModel(mongoose, teamModelInstance, Match);
 
 module.exports = {
     adminUser: {

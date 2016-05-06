@@ -18,9 +18,9 @@
         <div class="panel-body">
             <table class="matchtable" style="width: 100%">
                 <tr>
-                    <td style="text-align: right; width: 42%;"><%=x.homeTeam.name %></td>
+                    <td style="text-align: right; width: 42%;"><%=(x.homeTeam == null) ? "N/A" : x.homeTeam.name %></td>
                     <td style="text-align: center; width: 16%"><%=x.homeScore%> - <%=x.awayScore%></td>
-                    <td style="width: 42%;"><%=x.awayTeam.name%></td>
+                    <td style="width: 42%;"><%=(x.awayTeam == null) ? "N/A" : x.awayTeam.name%></td>
                 </tr>
                 <tr>
                     <td><%=x.stadium %>, <%= x.date %></td>

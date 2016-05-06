@@ -38,6 +38,7 @@ module.exports = function (app) {
             return next();
         }
     );
+
     app.param("matchId",
         checkMatchIdMW(objRepo)
     );
