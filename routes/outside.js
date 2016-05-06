@@ -13,6 +13,7 @@ var formatMatchDateMW = require("../middleware/matches/formatMatchDate");
 //common requires
 var render = require("../middleware/common/render");
 var renderJson = require("../middleware/common/renderJson");
+var setTitleMW = require("../middleware/common/setTitle");
 
 //model requires
 var objRepo = require("../model/objectRepository");
@@ -61,4 +62,15 @@ module.exports = function (app) {
     app.get("/", function(req, res, next) {
         return res.redirect("/matches/");
     });
+
+    //hiba
+    app.use("/error/404",
+        setTitleMW("404 - a lap nem található"),
+        function(req, res, next) {
+            res.status = 404;
+            return next();
+        },
+        setIsLoggedInMW(),
+        render(objRepo, "error/404")
+    );
 };
