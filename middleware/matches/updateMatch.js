@@ -3,7 +3,7 @@ module.exports = function(objectRepository) {
     var teamModel = objectRepository.teams;
     return function(req, res, next) {
         //módosítjuk az URL-paraméterben lévő meccset.
-        if (req.method == "POST") {
+        if (req.method == "POST" && res.error.length == 0) {
             var match = req.body;
             match.date = Date.parse(match.date + " " + match.time);
             matchModel.modifyMatch(req.params.matchId, match, function(success) {
@@ -28,7 +28,12 @@ module.exports = function(objectRepository) {
                             title: "Meccs szerkesztése",
                             teams: teams,
                             defaultData: match,
-                            action: "/match/" + req.params.matchId + "/edit"
+                            action: "/match/" + req.params.matchId + "/edit",
+                            error: res.error
+                        };
+
+                        if (req.method == "POST") {
+                            res.tpl.defaultData = req.body;
                         }
                         return next();
                     }

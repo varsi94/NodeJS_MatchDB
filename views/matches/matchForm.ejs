@@ -29,37 +29,37 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="<%=(error.indexOf("homeScore") > -1) ? "form-group has-error" : "form-group"%>">
                 <label for="homeScore" class="col-lg-2 control-label">Hazai eredmény:</label>
                 <div class="col-lg-10">
                     <input type="number" class="form-control" id="homeScore" name="homeScore" value="<%=defaultData.homeScore%>">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="<%=(error.indexOf("awayScore") > -1) ? "form-group has-error" : "form-group"%>">
                 <label for="awayScore" class="col-lg-2 control-label">Vendég eredmény:</label>
                 <div class="col-lg-10">
                     <input type="number" class="form-control" id="awayScore" name="awayScore" value="<%=defaultData.awayScore%>">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="<%=(error.indexOf("stadium") > -1) ? "form-group has-error" : "form-group"%>">
                 <label for="stadium" class="col-lg-2 control-label">Stadion:</label>
                 <div class="col-lg-10">
                     <input type="text" class="form-control" id="stadium" name="stadium" value="<%=defaultData.stadium%>">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="<%=(error.indexOf("referee") > -1) ? "form-group has-error" : "form-group"%>">
                 <label for="referee" class="col-lg-2 control-label">Játékvezető:</label>
                 <div class="col-lg-10">
                     <input type="text" class="form-control" id="referee" name="referee" value="<%=defaultData.referee%>">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="<%=(error.indexOf("spectators") > -1) ? "form-group has-error" : "form-group"%>">
                 <label for="spectatorCount" class="col-lg-2 control-label">Nézőszám:</label>
                 <div class="col-lg-10">
                     <input type="number" class="form-control" id="spectatorCount" name="spectators" value="<%=defaultData.spectators%>">
                 </div>
             </div>
-            <div class="form-group">
+            <div class="<%=(error.indexOf("matchType") > -1) ? "form-group has-error" : "form-group"%>">
                 <label for="matchType" class="col-lg-2 control-label">Típus:</label>
                 <div class="col-lg-10">
                     <input type="text" class="form-control" id="matchType" name="matchType" value="<%=defaultData.matchType%>">

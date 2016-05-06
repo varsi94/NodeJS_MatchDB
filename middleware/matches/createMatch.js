@@ -3,7 +3,7 @@ module.exports = function(objectRepository) {
     var teamModel = objectRepository.teams;
     return function (req, res, next) {
         //Létrehozzuk az új meccset a bodyban lévő adatok alapján, beszúrjuk az adatbázisba.
-        if (req.method == "POST") {
+        if (req.method == "POST" && res.error.length == 0) {
             //Itt már jó a meccs.
             var match = req.body;
             match.date = Date.parse(match.date + " " + match.time);
@@ -35,11 +35,16 @@ module.exports = function(objectRepository) {
                         },
                         title: "Új meccs létrehozása",
                         teams: data,
-                        action: "/match/create"
+                        action: "/match/create",
+                        error: res.error
                     };
+
+                    if (req.method == "POST") {
+                        res.tpl.defaultData = req.body;
+                    }
                     return next();
                 }
             });
         }
-    }
+    };
 };
